@@ -5,8 +5,12 @@ console.log(`${proxy_name}: ${version}`);
 let body = $response.body;
 const url = $request.url;
 
-const bl_splash = /\/x\/v2\/splash\/show/.test(url);
+// 开屏
+const bl_splash = /\/splash\/show/.test(url);
+// 首页信息流
+const bl_feed = /\/feed\/index/.test(url);
 
+// 开屏
 if (bl_splash) {
   let obj = JSON.parse(body);
   if (obj.data && obj.data.show) {
@@ -14,6 +18,15 @@ if (bl_splash) {
     // const stime = 253402185600;
     // const etime = 253402185600;
     obj.data.show = [];
+  }
+  body = JSON.stringify(obj);
+}
+
+// 首页信息流
+if (bl_feed) {
+  let obj = JSON.parse(body);
+  if (obj.data && obj.data.items) {
+    obj.data.items = obj.data.items.filter((item) => item.ad_info == null);
   }
   body = JSON.stringify(obj);
 }

@@ -25,8 +25,9 @@ if (bl_splash) {
 // 首页信息流
 if (bl_feed) {
   let obj = JSON.parse(body);
+  console.log('首页信息流 guard......');
   if (obj.data && obj.data.items) {
-    obj.data.items = obj.data.items.filter((item) => item.ad_info == null);
+    obj.data.items = obj.data.items.filter((item) => !item.ad_info);
   }
   body = JSON.stringify(obj);
 }
